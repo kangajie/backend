@@ -106,8 +106,10 @@ Aturan:
     );
 
     const reply: string =
-      aiResponse.data.choices?.[0]?.message?.content ||
-      'Maaf, saya tidak punya jawaban untuk itu.';
+  aiResponse.data.choices?.[0]?.message?.content?.trim() ||
+  'Maaf, saya tidak punya jawaban untuk itu.';
+    console.log('🧠 AI response:', aiResponse.data);
+
     res.json({ reply });
   } catch (err: any) {
     console.error('🔥 ERROR dari OpenRouter:', err?.response?.data || err.message);
