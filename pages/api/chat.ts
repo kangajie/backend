@@ -1,9 +1,7 @@
-// File: pages/api/chat.ts
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export default async function handler(
   req: NextApiRequest,
@@ -51,14 +49,7 @@ export default async function handler(
       return res.json({ reply: 'Sama-sama! Jika ada pertanyaan lain seputar layanan KangAjieDev, silakan ditanyakan.' });
     }
 
-    const aiResponse = await axios.post(
-      'https://openrouter.ai/api/v1/chat/completions',
-      {
-        model: 'deepseek-ai/deepseek-chat',
-        messages: [
-         {
-  role: "system",
-  content: `
+    const systemPrompt = `
 Kamu adalah asisten virtual profesional dari website KangAjieDev (https://kangajie.site).
 Tugasmu adalah menjawab pertanyaan tentang:
 - Jasa pembuatan dan perawatan website.
@@ -84,30 +75,29 @@ Harga:
 - Premium: Rp1.800.000–2.500.000/tahun
 
 Jika ada pertanyaan tidak relevan, balas: "Maaf, saya hanya bisa bantu seputar layanan KangAjieDev."
-`.trim()
-},
-          {
-            role: 'user',
-            content: userMessage,
-          },
-        ],
+    `.trim();
+
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        contents: [
+          { role: 'user', parts: [{ text: `${systemPrompt}\n\nPertanyaan: ${userMessage}` }] }
+        ]
       },
       {
-        headers: {
-          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' }
       }
     );
 
-    const reply: string =
-  aiResponse.data.choices?.[0]?.message?.content?.trim() ||
-  'Maaf, saya tidak punya jawaban untuk itu.';
-    console.log('🧠 AI response:', aiResponse.data);
+    const reply =
+      response.data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
+      'Maaf, saya tidak punya jawaban untuk itu.';
 
+    console.log('🧠 Gemini response:', response.data);
     res.json({ reply });
+
   } catch (err: any) {
-    console.error('🔥 ERROR dari OpenRouter:', err?.response?.data || err.message);
-    res.status(500).json({ error: 'Gagal mengambil jawaban dari AI.' });
+    console.error('🔥 ERROR dari Gemini:', err?.response?.data || err.message);
+    res.status(500).json({ error: 'Gagal mengambil jawaban dari Gemini AI.' });
   }
 }
