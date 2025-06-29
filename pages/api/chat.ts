@@ -71,7 +71,7 @@ export default async function handler(
     const aiResponse = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: 'mistralai/mistral-7b-instruct',
+        model: 'meta-llama/llama-3-8b-instruct',
         messages: [
           {
             role: 'system',
@@ -113,10 +113,6 @@ Aturan:
             content: userMessage,
           },
         ],
-        // Tambahkan parameter ini agar respons lebih relevan dan tidak terlalu pendek
-        max_tokens: 512,
-        temperature: 0.5,
-        top_p: 1,
       },
       {
         headers: {
