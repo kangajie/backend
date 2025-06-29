@@ -10,6 +10,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // ✅ CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // ✅ CORS preflight response
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // ✅ Method validation
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
@@ -20,14 +31,15 @@ export default async function handler(
   }
 
   try {
-    const greetings: string[] = [
+    // ✅ Respons cepat untuk sapaan
+    const greetings = [
       'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam',
       'halo', 'hai', 'assalamualaikum', 'assalamu\'alaikum', 'hello',
       'pagi', 'siang', 'sore', 'malam', 'good morning', 'good afternoon',
       'good evening', 'greetings', 'salam', 'salam kenal', 'permisi', 'hi',
       'hey', 'yo', 'apa kabar', 'semangat pagi'
     ];
-    const thanks: string[] = [
+    const thanks = [
       'terima kasih', 'makasih', 'thanks', 'thank you', 'trimakasih',
       'trims', 'tq', 'makasih banyak', 'terimakasih', 'thank u', 'makasii',
       'makasih ya', 'makasih banget', 'makasih kak', 'makasih mas',
@@ -55,6 +67,7 @@ export default async function handler(
       });
     }
 
+    // ✅ Kirim ke OpenRouter
     const aiResponse = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
