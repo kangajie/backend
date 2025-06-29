@@ -3,7 +3,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 export default async function handler(
   req: NextApiRequest,
