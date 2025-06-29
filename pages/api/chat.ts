@@ -54,7 +54,7 @@ export default async function handler(
     const aiResponse = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: 'deepseek-chat-v3-0324',
+        model: 'deepseek-ai/deepseek-chat',
         messages: [
          {
   role: "system",
