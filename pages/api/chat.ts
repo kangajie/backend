@@ -113,6 +113,10 @@ Aturan:
             content: userMessage,
           },
         ],
+        // Tambahkan parameter ini agar respons lebih relevan dan tidak terlalu pendek
+        max_tokens: 512,
+        temperature: 0.5,
+        top_p: 1,
       },
       {
         headers: {
