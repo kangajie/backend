@@ -30,7 +30,7 @@ export default async function handler(
     }
 
     // Ambil model Gemini
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
 
     // Kirim prompt dengan konteks
      const prompt = `
