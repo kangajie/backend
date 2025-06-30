@@ -30,9 +30,10 @@ export default async function handler(
     }
 
     // Ganti model di sini jika ingin upgrade:
-    const model = genAI.getGenerativeModel({
-      model: 'models/gemini-1.5-pro-002', // ✅ Bisa juga pakai: 'models/gemini-2.5-pro'
-    });
+   const model = genAI.getGenerativeModel({
+  model: 'models/gemini-1.5-flash' // Atau 'models/gemini-1.5-pro' jika ingin kualitas lebih tinggi
+});
+
 
     const prompt = `
 Kamu adalah asisten virtual profesional dari website KangAjieDev (https://kangajie.site).
