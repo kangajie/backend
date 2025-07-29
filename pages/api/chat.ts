@@ -53,7 +53,6 @@ export default async function handler(
     - Nama: M. Roifan Aji Marzuki (Kang Ajie)
     - Lokasi: Balerejo - Bumiharjo, Glenmore, Banyuwangi
     - WhatsApp: 0881026124253
-    - Instagram: @roifnvtaaa
     - Email: roifanmarzuki@gmail.com
     - Website: https://kangajie.site
 
